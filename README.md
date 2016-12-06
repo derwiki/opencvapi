@@ -1,4 +1,5 @@
-# opencvapi
+# OpenCV API
+A web API into OpenCV computer vision APIs.
 
 ## Setup
 ```
