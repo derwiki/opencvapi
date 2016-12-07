@@ -14,15 +14,13 @@ source activate opencvapi
 
 ## Running
 ```
-source activate opencvapi
-python app/server.py
+~/opencvapi$
+$ source activate opencvapi
+(opencvapi) ~/opencvapi$
+$ python app/server.py
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 ```
 
 ## Testing
-```
-$ curl -X PUT -F "image=@filename.jpg" http://localhost:5000/face
-
-{
-  "face_count": 2
-}
-```
+In your browser, load:
+[http://localhost:5000/face/squares](http://localhost:5000/face/squares)
