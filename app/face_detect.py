@@ -4,10 +4,10 @@ import cv2
 import tempfile
 
 class FaceDetect:
-    def __init__(self, image_path):
+    def __init__(self, image_path, classifier=None):
         self.image_path = image_path
 
-        casc_path = "classifiers/haarcascade_frontalface_default.xml"
+        casc_path = "classifiers/%s" % (classifier or 'haarcascade_frontalface_default.xml')
         face_cascade = cv2.CascadeClassifier(casc_path)
 
         self.image = cv2.imread(self.image_path)
