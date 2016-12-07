@@ -7,25 +7,55 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="apple-touch-icon" href="favicon.ico">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+        <style>
+        </style>
     </head>
-    <body>
+    <body class="container">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <form action='/classifier' method='POST' enctype='multipart/form-data'>
-          <input type='file' name='image' />
-          <button>Submit</button>
-          <select name="classifier">
-            {% for classifier in classifiers %}
-              <option value="{{classifier}}">{{classifier}}</option>
-            {% endfor %}
-          </select>
+        <div class="row">
+          <div class="col-xs-12">
+            <h1 class="text-center">
+              OpenCV API
+              <div style="font-size: 18px">
+                web API for computer vision
+              </div>
+            </h1>
+          </div>
+        </div>
+
+        <form action='/classifier' method='POST' enctype='multipart/form-data' class="row">
+          <div class="col-sm-4 col-sm-offset-4 form-group">
+            <input class="form-control" type='file' name='image' />
+            <label for="form-classifier">Classifier</label>
+            <select class="form-control" name="classifier" id="form-classifier">
+              {% for classifier in classifiers %}
+                <option value="{{classifier}}">{{classifier}}</option>
+              {% endfor %}
+            </select>
+            <button class="form-control btn btn-danger">Upload »</button>
+          </div>
         </form>
+
+        <div class="col-xs-12 text-center">
+          <h2>Example</h2>
+        </div>
+
+        <div class="col-sm-4 col-sm-offset-4 example">
+          Input image:
+          <img src="{{url_for('static', filename='workplace.jpg')}}">
+        </div>
+
+        <div class="col-sm-4 col-sm-offset-4 example">
+          Frontal face classifier:
+          <img src="{{url_for('static', filename='workplace-frontalface.jpg')}}">
+        </div>
 
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
