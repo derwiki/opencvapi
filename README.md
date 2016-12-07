@@ -23,4 +23,4 @@ $ python app/server.py
 
 ## Testing
 In your browser, load:
-[http://localhost:5000/face/squares](http://localhost:5000/face/squares)
+[http://localhost:5000](http://localhost:5000)

@@ -3,8 +3,8 @@
 import cv2
 import tempfile
 
-class Classifier:
-    def __init__(self, image_path, classifier=None):
+class Classifier(object):
+    def __init__(self, image_path, classifier):
         classifier = (classifier or 'haarcascade_frontalface_default.xml')
 
         self.image_path = image_path
@@ -36,4 +36,4 @@ class Classifier:
 
 class FaceClassifier(Classifier):
     def __init__(self, image_path):
-        __super__(FaceClassifier, self).__init__(image_path, 'haarcascade_frontalface_default.xml')
+        super(FaceClassifier, self).__init__(image_path, 'haarcascade_frontalface_default.xml')

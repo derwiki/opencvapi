@@ -10,9 +10,22 @@ from classifier import FaceClassifier
 app = flask.Flask(__name__)
 #TODO create directory if doesn't exist or use tempdir
 app.config['UPLOAD_FOLDER'] = '/tmp/opencvapi/upload/'
+app.config['MAX_CONTENT_LENGTH'] = 512 * 1024
+
+def stream_size(stream):
+    stream.seek(0, os.SEEK_END)
+    file_length = stream.tell()
+    stream.seek(0, os.SEEK_SET)
+    return file_length
+
+def file_size(file_path):
+    return os.stat(file_path).st_size
 
 def classifiers():
     return os.listdir('classifiers/')
+
+def error(message):
+  return [message, 413]
 
 @app.route('/', methods=['GET'])
 def index():
@@ -26,11 +39,15 @@ def classifier():
     file = flask.request.files['image']
     classifier = flask.request.form['classifier']
     in_image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.name)
+
+    image_size = stream_size(file)
+    print "stream size: {}".format(image_size)
+    if image_size > 512 * 1024:
+        return error("Uploaded image too large: {}".format(image_size))
+
     file.save(in_image_path)
-    out_image_path = FaceClassifier(
-      in_image_path,
-      classifier=classifier
-    ).face_squares()
+    print "file size: {}".format(file_size(in_image_path))
+    out_image_path = FaceClassifier(in_image_path).face_squares()
 
     return flask.send_file(
         out_image_path,
