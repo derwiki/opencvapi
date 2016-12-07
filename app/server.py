@@ -1,3 +1,4 @@
+import httplib
 from io import BytesIO
 import os
 import sys
@@ -32,5 +33,9 @@ def face_squares_post():
         attachment_filename=file.name
     )
 
+@app.route('/favicon.ico')
+def favicon():
+   return ('', httplib.NO_CONTENT)
+
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
