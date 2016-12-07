@@ -5,7 +5,7 @@ import sys
 
 import flask
 
-from face_detect import FaceDetect
+from classifier import FaceClassifier
 
 app = flask.Flask(__name__)
 #TODO create directory if doesn't exist or use tempdir
@@ -27,7 +27,7 @@ def classifier():
     classifier = flask.request.form['classifier']
     in_image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.name)
     file.save(in_image_path)
-    out_image_path = FaceDetect(
+    out_image_path = FaceClassifier(
       in_image_path,
       classifier=classifier
     ).face_squares()
@@ -41,7 +41,7 @@ def classifier():
 @app.route('/face/count', methods=['POST'])
 def face_count():
     image = flask.request.files['image']
-    return flask.jsonify(FaceDetect(image.filename).face_count())
+    return flask.jsonify(FaceClassifier(image.filename).face_count())
 
 @app.route('/favicon.ico')
 def favicon():

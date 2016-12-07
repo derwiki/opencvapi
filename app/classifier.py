@@ -3,11 +3,13 @@
 import cv2
 import tempfile
 
-class FaceDetect:
+class Classifier:
     def __init__(self, image_path, classifier=None):
+        classifier = (classifier or 'haarcascade_frontalface_default.xml')
+
         self.image_path = image_path
 
-        casc_path = "classifiers/%s" % (classifier or 'haarcascade_frontalface_default.xml')
+        casc_path = "classifiers/%s" % classifier
         face_cascade = cv2.CascadeClassifier(casc_path)
 
         self.image = cv2.imread(self.image_path)
@@ -31,3 +33,7 @@ class FaceDetect:
         temp = tempfile.NamedTemporaryFile(suffix='.jpg')
         cv2.imwrite(temp.name, self.image)
         return temp
+
+class FaceClassifier(Classifier):
+    def __init__(self, image_path):
+        __super__(FaceClassifier, self).__init__(image_path, 'haarcascade_frontalface_default.xml')
