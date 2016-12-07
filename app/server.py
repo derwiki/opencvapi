@@ -14,17 +14,15 @@ app.config['UPLOAD_FOLDER'] = '/tmp/opencvapi/upload/'
 def classifiers():
     return os.listdir('classifiers/')
 
-@app.route('/face/count', methods=['POST'])
-def face_post():
-    image = flask.request.files['image']
-    return flask.jsonify(FaceDetect(image.filename).face_count())
+@app.route('/', methods=['GET'])
+def index():
+    return flask.render_template(
+        'index.html',
+        classifiers=classifiers()
+    )
 
-@app.route('/face/squares', methods=['GET'])
-def face_squares_get():
-    return flask.render_template('face_squares.html', classifiers=classifiers())
-
-@app.route('/face/squares', methods=['POST'])
-def face_squares_post():
+@app.route('/classifier', methods=['POST'])
+def classifier():
     file = flask.request.files['image']
     classifier = flask.request.form['classifier']
     in_image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.name)
@@ -39,6 +37,11 @@ def face_squares_post():
         mimetype="image/jpg",
         attachment_filename=file.name
     )
+
+@app.route('/face/count', methods=['POST'])
+def face_count():
+    image = flask.request.files['image']
+    return flask.jsonify(FaceDetect(image.filename).face_count())
 
 @app.route('/favicon.ico')
 def favicon():
