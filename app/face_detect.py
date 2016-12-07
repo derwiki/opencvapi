@@ -1,6 +1,7 @@
 # https://github.com/shantnu/FaceDetect/
 
 import cv2
+import tempfile
 
 class FaceDetect:
     def __init__(self, image_path):
@@ -19,8 +20,6 @@ class FaceDetect:
             minSize=(30, 30),
             flags = cv2.cv.CV_HAAR_SCALE_IMAGE
         )
-        print("Found {0} faces!".format(len(self.faces)))
-
 
     def face_count(self):
         return dict(face_count=len(self.faces))
@@ -29,7 +28,6 @@ class FaceDetect:
         for (x, y, w, h) in self.faces:
             cv2.rectangle(self.image, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-        file_path = "public/%s" % self.image_path
-        print "Writing to: %s" % file_path
-        cv2.imwrite(file_path, self.image)
-        return cv2.imencode('.jpg', self.image)
+        temp = tempfile.NamedTemporaryFile(suffix='.jpg')
+        cv2.imwrite(temp.name, self.image)
+        return temp
