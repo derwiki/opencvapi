@@ -2,15 +2,7 @@
 A web API into OpenCV computer vision APIs.
 
 ## Setup
-```
-sudo yum -y update
-curl https://repo.continuum.io/archive/Anaconda2-4.2.0-Linux-x86_64.sh > Anaconda2-4.2.0-Linux-x86_64.sh
-bash Anaconda2-4.2.0-Linux-x86_64.sh -b -f
-sudo yum -y install tmux git
-echo export PATH=$PATH:~/anaconda2/bin
-conda create -y -n opencvapi opencv
-source activate opencvapi
-```
+Run `bash script/install-amazon-ami.sh` to install all requirements.
 
 ## Running
 ```
