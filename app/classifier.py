@@ -4,30 +4,30 @@ import cv2
 import tempfile
 
 class Classifier(object):
-    def __init__(self, image_path, classifier):
-        classifier = (classifier or 'haarcascade_frontalface_default.xml')
-
+    def __init__(self, image_path, classifier_path):
         self.image_path = image_path
 
-        casc_path = "classifiers/%s" % classifier
-        face_cascade = cv2.CascadeClassifier(casc_path)
+        casc_path = "classifiers/{}".format(classifier_path)
+        cascade = cv2.CascadeClassifier(casc_path)
+        print "loaded classifier: {}".format(classifier_path)
 
         self.image = cv2.imread(self.image_path)
         gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
 
-        self.faces = face_cascade.detectMultiScale(
+        self.features = cascade.detectMultiScale(
             gray,
             scaleFactor=1.1,
             minNeighbors=5,
             minSize=(30, 30),
-            flags = cv2.cv.CV_HAAR_SCALE_IMAGE
+            flags=cv2.cv.CV_HAAR_SCALE_IMAGE
         )
 
-    def face_count(self):
-        return dict(face_count=len(self.faces))
+    def feature_count(self):
+        return dict(feature_count=len(self.features))
 
-    def face_squares(self):
-        for (x, y, w, h) in self.faces:
+    def feature_squares(self):
+        print "len(self.features): {}".format(len(self.features))
+        for (x, y, w, h) in self.features:
             cv2.rectangle(self.image, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
         temp = tempfile.NamedTemporaryFile(suffix='.jpg')
