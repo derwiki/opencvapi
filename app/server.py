@@ -1,5 +1,6 @@
 import httplib
 import os
+import string
 
 import flask
 
@@ -19,8 +20,19 @@ def stream_size(stream):
 def file_size(file_path):
     return os.stat(file_path).st_size
 
+def classifier_label(classifier):
+    s = classifier.replace('.xml', '')
+    try:
+       return string.capwords(' '.join(s.split('_')[1:]))
+    except:
+       return s
+
 def classifiers():
-    return os.listdir('classifiers/')
+    return list(
+      (classifier, classifier_label(classifier))
+      for classifier
+      in os.listdir('classifiers/')
+    )
 
 def error(message):
     return [message, 413]
